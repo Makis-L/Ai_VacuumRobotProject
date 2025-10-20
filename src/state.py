@@ -2,7 +2,7 @@
 
 class State:
     # Βασικός Constructor για την δημιουργία του state
-    # State: Το στιγμιότυπο του κόσμου μια συγκεκριμένη χρονική στιγμή
+    # State: Το στιγμιότυπο του κόσμου σε μια συγκεκριμένη στιγμή
     def __init__(self, position, trash, load, base, parent=None, action=None, depth=0):
         self.position = position
         self.trash = trash
