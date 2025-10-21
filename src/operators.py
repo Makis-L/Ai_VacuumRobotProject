@@ -13,13 +13,15 @@ def move_left(state):
         
         new_state = State(
             position = new_position,
-            trash = state.tras.copy(),
+            trash = state.trash.copy(),
             load = state.load,
             base = state.base,
             parent = state,
             action = "move_left",
             depth = state.depth + 1
         )
+        #print(f"★ Action: Move_Left ★")
+        #print(new_state)
         return new_state
     return None
 
@@ -36,6 +38,8 @@ def move_right(state):
             action = "move_right",
             depth = state.depth + 1
         )
+        #print(f"★ Action: Move_Right ★")
+        #print(new_state)
         return new_state
     return None
 
@@ -55,6 +59,8 @@ def clean(state):
             action = "clean",
             depth = state.depth + 1
         )
+        #print(f"★ Action: Clean ★")
+        #print(new_state)
         return new_state
     return None        
 
@@ -71,6 +77,8 @@ def dump(state):
             action = "dump",
             depth = state.depth + 1
         )
+        #print(f"★ Action: Dump ★")
+        #print(new_state)
         return new_state
     return None
 

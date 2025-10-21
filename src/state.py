@@ -26,7 +26,7 @@ class State:
     
     # Συνάρτηση που επιστρέφει μια αναγνώσιμη αναπαράσταση του state
     def __str__(self):
-        return f"Position= {self.position}, Trash= {self.trash}, Load= {self.load}"
+        return f"Position Of Robot (0-7)= {self.position}, Trash in Floor= {self.trash}, Robot's Trash Load= {self.load}"
 
 # Συνάρτηση που δημιουργεί το αρχίκο state που παρουσιάζεται στην εκφώνηση της άσκησης
 def create_initial_state():
