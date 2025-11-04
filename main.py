@@ -1,6 +1,7 @@
 from src.state import create_initial_state
 from src.search_algorithms.dfs import dfs
 from src.search_algorithms.bfs import bfs
+from src.printing import reconstruct_path, print_solution, print_stats
 
 def main():
     initial_state = create_initial_state()
@@ -29,16 +30,11 @@ def main():
                 print(result_dfs)
                 print("-" * 40)
         
-                steps = []
-                current = result_dfs
-                while current is not None:
-                    steps.append(current.action)
-                    current = current.parent
-                steps.reverse()
-                print("\n★ Διαδρομή ενεργειών ★")
-                print(steps)
-                print(" " * 40)
-                print("-" * 40)
+            if result_dfs is not None:
+                path = reconstruct_path(result_dfs)
+                print_solution(path)
+                print_stats(result_dfs, solution_depth=result_dfs.depth)
+
                 
         elif answer == "2" or answer == "B":    
             result_bfs = bfs(initial_state)
@@ -51,17 +47,11 @@ def main():
                 print(result_bfs)
                 print("-" * 40)
         
-            steps = []
-            current = result_bfs
-            while current is not None:
-                steps.append(current.action)
-                current = current.parent
-                
-            steps.reverse()
-            print("★ Διαδρομή ενεργειών ★")
-            print(steps)
-            print(" " * 40)
-            print("-" * 40)
+            if result_bfs is not None:
+                path = reconstruct_path(result_bfs)
+                print_solution(path)
+                print_stats(result_bfs, solution_depth=result_bfs.depth)
+
                     
         elif answer == "3" or answer == "Q":
             print("Τα λέμε ξανά!")
