@@ -1,9 +1,9 @@
 # Αρχείο Τελεστών Μετάβασης.
 # Το ρομπότ μπορεί να κάνει 4 κινήσεις:
-# 1. Να κινηθεί αριστερά
-# 2. Να κινηθεί δεξία
-# 3. Να μαζέψει σκουπίδι (1 την φορά)
-# 4. Να πετάξει τα σκουπίδια στην βάση του
+# 1. Να κινηθεί αριστερά: MOVE LEFT
+# 2. Να κινηθεί δεξία: MOVE RIGHT
+# 3. Να μαζέψει σκουπίδι (1 την φορά): CLEAN
+# 4. Να πετάξει τα σκουπίδια στην βάση του: DUMP
 
 from src.state import State
 
@@ -20,8 +20,6 @@ def move_left(state):
             action = "move_left",
             depth = state.depth + 1
         )
-        #print(f"★ Action: Move_Left ★")
-        #print(new_state)
         return new_state
     return None
 
@@ -38,8 +36,6 @@ def move_right(state):
             action = "move_right",
             depth = state.depth + 1
         )
-        #print(f"★ Action: Move_Right ★")
-        #print(new_state)
         return new_state
     return None
 
@@ -59,8 +55,6 @@ def clean(state):
             action = "clean",
             depth = state.depth + 1
         )
-        #print(f"★ Action: Clean ★")
-        #print(new_state)
         return new_state
     return None        
 
@@ -77,8 +71,6 @@ def dump(state):
             action = "dump",
             depth = state.depth + 1
         )
-        #print(f"★ Action: Dump ★")
-        #print(new_state)
         return new_state
     return None
 

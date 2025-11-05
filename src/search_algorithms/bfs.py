@@ -1,5 +1,6 @@
 from src.state import State, create_initial_state, is_goal
 from src.findchildren import findchildren
+from src.search_algorithms.statistics import Stats
 
 def bfs(initial_state):
     
@@ -23,4 +24,5 @@ def bfs(initial_state):
             frontier.append(child)
         
         closed.add(current)
-
+    
+    

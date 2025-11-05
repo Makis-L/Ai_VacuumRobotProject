@@ -15,7 +15,7 @@ def reconstruct_path(goal_state):
     return path
 
 
-# Mορφοποιούμε το όνομα της ενέργειας σε κεφαλαία, αν δεν είναι None
+# Συνάρτηση για να μορφοποιούμε το όνομα της ενέργειας σε κεφαλαία, αν δεν είναι None
 def format_action(action):
     
     if action is None:

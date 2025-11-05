@@ -44,6 +44,6 @@ def create_initial_state():
  
 # Συνάρτηση που επιστρέφει αν έχουν μαζευτεί επιτυχώς όλα τα σκουπίδια   
 def is_goal(state):
-    return all(t == 0 for t in state.trash)
+    return all(t == 0 for t in state.trash) and state.position == state.base and state.load == 0
         
         

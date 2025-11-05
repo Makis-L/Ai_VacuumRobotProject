@@ -29,8 +29,6 @@ def main():
                 print("★ Τελική Κατάσταση ★")
                 print(result_dfs)
                 print("-" * 40)
-        
-            if result_dfs is not None:
                 path = reconstruct_path(result_dfs)
                 print_solution(path)
                 print_stats(result_dfs, solution_depth=result_dfs.depth)
@@ -46,8 +44,6 @@ def main():
                 print("★ Τελική Κατάσταση ★")
                 print(result_bfs)
                 print("-" * 40)
-        
-            if result_bfs is not None:
                 path = reconstruct_path(result_bfs)
                 print_solution(path)
                 print_stats(result_bfs, solution_depth=result_bfs.depth)
