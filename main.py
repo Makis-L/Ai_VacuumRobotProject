@@ -6,8 +6,10 @@ from src.search_algorithms.a_star import astar_search
 from src.heuristics import h2 
 from src.printing import reconstruct_path, print_solution, print_stats
 
+# Εκτελεί τον επιλεγμένο αλγόριθμο, υπολογίζει τη λύση και καλεί τις
+# συναρτήσεις εκτύπωσης αποτελεσμάτων.
 def run_algorithm(algo_name, initial_state):
-    # Βοηθητική συνάρτηση για να τρέχει έναν αλγόριθμο και να τυπώνει συνοπτικά.
+
     print(f"\n{'='*20} {algo_name} {'='*20}")
     
     path, stats = None, None

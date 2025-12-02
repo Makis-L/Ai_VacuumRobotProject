@@ -28,6 +28,10 @@ class State:
     # Συνάρτηση που επιστρέφει μια αναγνώσιμη αναπαράσταση του state
     def __str__(self):
         return f"Position Of Robot (0-7)= {self.position}, Trash in Floor= {self.trash}, Robot's Trash Load= {self.load}"
+    
+    # Χρειάζεται για το σωρό (heap) του A* σε περίπτωση ισοπαλίας κόστους
+    def __lt__(self, other):
+        return self.depth < other.depth
 
 # Συνάρτηση που δημιουργεί το αρχίκο state που παρουσιάζεται στην εκφώνηση της άσκησης
 def create_initial_state():

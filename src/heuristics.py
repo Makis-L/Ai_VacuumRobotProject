@@ -2,7 +2,9 @@ def remaining_trash(state):
     return sum(state.trash)
 
 def h1(state):
-    # Απλό: πλήθος σκουπιδιών
+    # Ευριστική h1: Απλή καταμέτρηση σκουπιδιών.
+    # Επιστρέφει το πλήθος των μονάδων σκουπιδιών που υπάρχουν στο πάτωμα.
+    # Δεν είναι πολύ ισχυρή, δεν θα την χρησιμοποιήσουμε.
     return remaining_trash(state)
 
 def h2(state):
@@ -10,7 +12,7 @@ def h2(state):
     if rem == 0:
         return abs(state.position - state.base)
 
-    # Διόρθωση: Χρησιμοποιούμε i αντί για i+1 γιατί το position είναι 0-7
+    # Χρησιμοποιούμε i αντί για i+1 γιατί το position είναι 0-7
     dirt_positions = [i for i, v in enumerate(state.trash) if v > 0]
     
     min_p, max_p = min(dirt_positions), max(dirt_positions)

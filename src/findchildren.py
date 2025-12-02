@@ -5,7 +5,7 @@
 from src.state import State
 from src.operators import move_left, move_right, clean, dump
 
-OPERATORS = [
+ops = [
     ("move_left",  move_left, 1),
     ("move_right", move_right, 1),
     ("clean",      clean,     1),
@@ -15,7 +15,7 @@ OPERATORS = [
 def findchildren(state):
     children = []
     
-    for action_name, op, cost in OPERATORS:
+    for action_name, op, cost in ops:
         new_state = op(state)
         
         if new_state is not None:
