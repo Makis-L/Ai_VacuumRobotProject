@@ -1,76 +1,95 @@
-from src.state import create_initial_state, is_goal
+from src.state import create_initial_state, create_random_state, is_goal
 from src.findchildren import findchildren
 from src.search_algorithms.dfs import dfs
 from src.search_algorithms.bfs import bfs
 from src.search_algorithms.a_star import astar_search
-from src.heuristics import h2   # μπορείς να αλλάξεις σε h1, h2, ή να ζητήσεις από τον χρήστη
+from src.heuristics import h2 
 from src.printing import reconstruct_path, print_solution, print_stats
 
-def main():
-    initial_state = create_initial_state()
-    print("★ Αρχική Κατάσταση ★")
-    print(initial_state)
-    print("-" * 40)
-    answer = "A"
+def run_algorithm(algo_name, initial_state):
+    # Βοηθητική συνάρτηση για να τρέχει έναν αλγόριθμο και να τυπώνει συνοπτικά.
+    print(f"\n{'='*20} {algo_name} {'='*20}")
     
-    print("Διάλεξε με ποιόν αλγόριθμο θες να καθαρίσεις τα πλακάκια.")
-    print("1 ή D → DFS")
-    print("2 ή B → BFS")
-    print("3 ή A → A* (Ευριστική Αναζήτηση)")
-    print("4 ή Q → Έξοδος")
-    print("(↓)(↓)(↓)")
-        
-    answer = input().strip().upper()
-        
-    if answer == "1" or answer == "D":
-        result_dfs = dfs(initial_state)
+    path, stats = None, None
+    
+    if algo_name == "DFS":
+        goal_state = dfs(initial_state)
+        if goal_state:
+            path = reconstruct_path(goal_state)
+            stats = goal_state # Το DFS επιστρέφει το state με τα stats μέσα
             
-        if result_dfs is None:
-            print("Δεν βρέθηκε λύση με τον αλγόριθμο DFS.")
-        else:
-            print(" " * 40)
-            print("★ Τελική Κατάσταση ★")
-            print(result_dfs)
-            print("-" * 40)
-            path = reconstruct_path(result_dfs)
-            print_solution(path)
-            print_stats(result_dfs, solution_depth=result_dfs.depth)
-
-                
-    elif answer == "2" or answer == "B":    
-        result_bfs = bfs(initial_state)
+    elif algo_name == "BFS":
+        goal_state = bfs(initial_state)
+        if goal_state:
+            path = reconstruct_path(goal_state)
+            stats = goal_state
             
-        if result_bfs is None:
-            print("Δεν βρέθηκε λύση με τον αλγόριθμο BFS.")
-        else:
-            print(" " * 40)
-            print("★ Τελική Κατάσταση ★")
-            print(result_bfs)
-            print("-" * 40)
-            path = reconstruct_path(result_bfs)
-            print_solution(path)
-            print_stats(result_bfs, solution_depth=result_bfs.depth)
-
-    elif answer == "3" or answer == "A":
-
-        print("\n★ Τρέχει ο A* με heuristic h2 ★")
+    elif algo_name == "A*":
         path, stats = astar_search(initial_state, is_goal, findchildren, heuristic_fn=h2)
 
+    if path:
+        print_solution(path)
+        print_stats(stats)
+    else:
+        print("Δεν βρέθηκε λύση.")
 
-        if path is None:
-            print("Δεν βρέθηκε λύση με A*.")
+def main():
+    # Αρχική default κατάσταση
+    current_initial_state = create_initial_state()
+    
+    answer = "" 
+
+    while answer != "Q" and answer != "6":
+        
+        print("\n" + "★" * 10 + " MENU " + "★" * 10)
+        print("Τρέχουσα Αρχική Κατάσταση:")
+        print(current_initial_state)
+        print("-" * 40)
+        print("1. DFS (Απλή εκτέλεση)")
+        print("2. BFS (Απλή εκτέλεση)")
+        print("3. A* (Απλή εκτέλεση)")
+        print("4. Αλλαγή σε ΤΥΧΑΙΑ αρχική κατάσταση (New Random State)")
+        print("5. ★ ΣΥΓΚΡΙΤΙΚΗ ΜΕΛΕΤΗ (Τρέχει και τους 3 στην τρέχουσα κατάσταση) ★")
+        print("6. Έξοδος")
+        print("(↓)(↓)(↓)")
+        
+        try:
+            answer = input().strip().upper()
+        except KeyboardInterrupt:
+            print("\nΕλήφθη σήμα διακοπής. Έξοδος...")
+            break
+        except EOFError:
+            break
+        
+        if answer == "1":
+            run_algorithm("DFS", current_initial_state)
+
+        elif answer == "2":    
+            run_algorithm("BFS", current_initial_state)
+
+        elif answer == "3":
+            run_algorithm("A*", current_initial_state)
+
+        elif answer == "4":
+            current_initial_state = create_random_state()
+            print("\n--> Δημιουργήθηκε νέα τυχαία κατάσταση!")
+
+        elif answer == "5":
+            print("\n" + "█" * 60)
+            print("   ΕΝΑΡΞΗ ΣΥΓΚΡΙΤΙΚΗΣ ΜΕΛΕΤΗΣ  ")
+            print("█" * 60)
+            run_algorithm("DFS", current_initial_state)
+            run_algorithm("BFS", current_initial_state)
+            run_algorithm("A*", current_initial_state)
+            print("\n" + "█" * 60)
+            print("   ΤΕΛΟΣ ΣΥΓΚΡΙΤΙΚΗΣ ΜΕΛΕΤΗΣ  ")
+            print("█" * 60)
+
+        elif answer == "6" or answer == "Q":
+            print("Τα λέμε ξανά!")
+            break
         else:
-            print("\n★ Τελική Κατάσταση (A*) ★")
-            print(path[-1])
-            print("-" * 40)
-
-            print_solution(path)
-            print_stats(stats)
-
-                    
-    elif answer == "4" or answer == "Q":
-        print("Τα λέμε ξανά!")
+            print("Παρακαλώ επέλεξε ξανά.")
 
 if __name__ == "__main__":
     main()
-    

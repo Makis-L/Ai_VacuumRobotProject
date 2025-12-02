@@ -1,5 +1,6 @@
 # Αρχείο αναπαράστασης και δημιουργίας στιγμιοτύπων του κόσμου.
 
+import random
 class State:
     # Βασικός Constructor για την δημιουργία του state
     # State: Το στιγμιότυπο του κόσμου σε μια συγκεκριμένη στιγμή
@@ -46,4 +47,26 @@ def create_initial_state():
 def is_goal(state):
     return all(t == 0 for t in state.trash) and state.position == state.base and state.load == 0
         
-        
+def create_random_state():
+    
+    # Δημιουργεί μια τυχαία αρχική κατάσταση:
+    # 1. Τυχαία θέση ρομπότ (0-7).
+    # 2. Βάση του ρομπότ είναι η θέση εκκίνησης.
+    # 3. Συνολικά 10 σκουπίδια μοιρασμένα τυχαία στα πλακάκια.
+    # 4. Κανένα σκουπίδι στη θέση εκκίνησης του ρομπότ (βάση).
+    
+    # 1. Τυχαία θέση ρομπότ
+    pos = random.randint(0, 7)
+    
+    # 2. Αρχικοποίηση σκουπιδιών
+    trash = [0] * 8
+    
+    # 3. Τοποθέτηση 10 σκουπιδιών τυχαία (όχι στη θέση του ρομπότ)
+    items_placed = 0
+    while items_placed < 10:
+        tile_index = random.randint(0, 7)
+        if tile_index != pos: # Η βάση δεν μπορεί να έχει σκουπίδια
+            trash[tile_index] += 1
+            items_placed += 1
+            
+    return State(pos, trash, 0, base=pos)
