@@ -1,28 +1,42 @@
-from src.state import State, create_initial_state, is_goal
+from src.state import create_initial_state, is_goal
 from src.findchildren import findchildren
-from src.search_algorithms.statistics import Stats
 
 def bfs(initial_state):
-    
-    initial_state = create_initial_state()
-    
-    frontier = [initial_state]
-    closed = set() # Δημιουργούμε ένα άδειο σύνολο state που έχουμε επισκεφθεί, με set()
-    
+    state = initial_state # Χρησιμοποιούμε το όρισμα, όχι δημιουργία νέου
+
+    frontier = [state]
+    closed = set()
+
+    expanded = 0
+    generated = 1
+    max_frontier = 1
+
     while frontier:
-        current = frontier.pop(0) # Παίρνουμε το πρώτο στοιχείο της λίστας, δηλαδή το αφαιρεί από την λίστα και το παίρνουμε σαν τιμή
-        
+        current = frontier.pop(0)
+
         if current in closed:
             continue
         
-        if is_goal(current):
-            return current
+        closed.add(current)
         
+        if is_goal(current):
+            # Αποθηκεύουμε τα στατιστικά πάνω στο αντικείμενο state για την εκτύπωση
+            current.expanded = expanded
+            current.generated = generated
+            current.max_frontier = max_frontier
+            return current
+
+        expanded += 1
+
+        # Εδώ είναι η αλλαγή: unpack το tuple (action, child, cost)
         children = findchildren(current)
         
-        for child in children:
-            frontier.append(child)
-        
-        closed.add(current)
-    
-    
+        for _, child, _ in children:
+            if child not in closed and child not in frontier:
+                frontier.append(child)
+                generated += 1
+            
+        if len(frontier) > max_frontier:
+            max_frontier = len(frontier)
+
+    return None

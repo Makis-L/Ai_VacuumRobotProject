@@ -1,36 +1,28 @@
-# Αρχείο εμφάνισης αποτελεσμάτων με διαδρομές και στατιστικών αναζήτησης
-
-# Επιστρέφουμε μια λίστα με όλα τα State αντικείμενα από την αρχική (Initial)
-# κατάσταση έως την τελική (goal)
 def reconstruct_path(goal_state): 
-                                  
     path = []
     state = goal_state
     
     while state is not None:
-        path.append(state) # ανεβαίνουμε προς τα πάνω (goal -> parent -> parent -> ... -> initial)
+        path.append(state)
         state = state.parent
     
-    path.reverse() # μετά αντιστρέφουμε την λίστα (initial -> parent -> ... -> goal)
+    path.reverse()
     return path
 
-
-# Συνάρτηση για να μορφοποιούμε το όνομα της ενέργειας σε κεφαλαία, αν δεν είναι None
 def format_action(action):
-    
     if action is None:
         return "-"
-    
     return action.strip().upper() 
 
-# Συνάρτηση εκτύπωσης της διαδρομής της λύσης 
 def print_solution(path_states):
-    
+    if not path_states:
+        return
+
     print("\n★ Λύση με τα Βήματα ★")
+    print("-" * 60)
     step = 0
     
     for i in range(1, len(path_states)):
-        prev = path_states[i - 1]
         curr = path_states[i]
         action = curr.action
         
@@ -44,14 +36,25 @@ def print_solution(path_states):
     print("-" * 60)
     print(f"Συνολικός αριθμός βημάτων: {step}\n")
     
-# Συνάρτηση εκτύπωσης στατιστικών αναζήτησης    
 def print_stats(stats, solution_depth=None):
-    
     print("\n★ Στατιστικά Αναζήτησης ★")
-    print(f"Expanded nodes    : {getattr(stats, 'expanded', 'N/A')}")
-    print(f"Generated nodes   : {getattr(stats, 'generated', 'N/A')}")
-    print(f"Max frontier size : {getattr(stats, 'max_frontier', 'N/A')}")
     
-    if solution_depth is not None:
-        print(f"Solution depth    : {solution_depth}")
+    # Χειρισμός αν το stats είναι Dictionary (A*)
+    if isinstance(stats, dict):
+        expanded = stats.get('expanded', 'N/A')
+        generated = stats.get('generated', 'N/A')
+        max_frontier = stats.get('max_frontier', 'N/A')
+        cost = stats.get('solution_cost', 'N/A')
+    # Χειρισμός αν το stats είναι Object State (BFS/DFS)
+    else:
+        expanded = getattr(stats, 'expanded', 'N/A')
+        generated = getattr(stats, 'generated', 'N/A')
+        max_frontier = getattr(stats, 'max_frontier', 'N/A')
+        cost = getattr(stats, 'depth', 'N/A') # Στο BFS/DFS το κόστος είναι το βάθος
+
+    print(f"Expanded nodes    : {expanded}")
+    print(f"Generated nodes   : {generated}")
+    print(f"Max frontier size : {max_frontier}")
+    print(f"Solution cost     : {cost}")
+    
     print("-" * 60)

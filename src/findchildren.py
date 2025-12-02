@@ -5,15 +5,21 @@
 from src.state import State
 from src.operators import move_left, move_right, clean, dump
 
+OPERATORS = [
+    ("move_left",  move_left, 1),
+    ("move_right", move_right, 1),
+    ("clean",      clean,     1),
+    ("dump",       dump,      1)
+]
+
 def findchildren(state):
-    
     children = []
-    ops = [move_left, move_right, clean, dump]
     
-    for x in ops:
-        new_state = x(state)
+    for action_name, op, cost in OPERATORS:
+        new_state = op(state)
         
         if new_state is not None:
-            children.append(new_state)
-    
-    return children # Επιστρέφουμε λίστα με κινήσεις που μπορούν να προκύψουν (δηλαδή παιδία του κόμβου)
+            # Επιστρέφουμε: (Όνομα Ενέργειας, Νέα Κατάσταση, Κόστος)
+            children.append((action_name, new_state, cost))
+            
+    return children
